@@ -38,6 +38,8 @@ class _SearchState extends State<Search> {
       onChanged: (value) {
         filtaredItems(value);
       },
+      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+
       decoration: const InputDecoration(
         labelText: 'Search',
         border: OutlineInputBorder(),

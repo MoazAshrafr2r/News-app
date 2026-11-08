@@ -23,8 +23,43 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _selected = '  ';
+  String _selected = 'general';
   List<Articles> _articles = [];
+
+  Widget _buildBody(NewsState state) {
+    if (state is NewsSuccess) {
+      return ListView.separated(
+        padding: EdgeInsets.zero,
+        itemCount: _articles.isEmpty ? state.articles.length : _articles.length,
+        itemBuilder: (context, index) {
+          final article = _articles.isEmpty
+              ? state.articles[index]
+              : _articles[index];
+          return ArticleCard(articles: article);
+        },
+        separatorBuilder: (context, index) => const SizedBox(height: 10),
+      );
+    }
+
+    if (state is NewsError) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(state.message),
+            ElevatedButton(
+              onPressed: () =>
+                  context.read<NewsCubit>().fetchNews(category: _selected),
+              child: const Text('Reload'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return const Center(child: CircularProgressIndicator());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewsCubit, NewsState>(
@@ -42,17 +77,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         _articles = filteredArticles;
                       });
                     }),
-                  SizedBox(height: 20),
-
+                  const SizedBox(height: 20),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       spacing: 4,
                       children: HomeScreen.categories.map((category) {
                         return Container(
+                          width: 122,
                           decoration: BoxDecoration(
                             color: _selected == category
-                                ? const Color(0xFF8B1538) // مختار
+                                ? const Color(0xFF8B1538)
                                 : Colors.grey,
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -76,29 +111,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       }).toList(),
                     ),
                   ),
-                  const SizedBox(height: 10),
-
-                  const SizedBox(height: 10),
-
-                  Expanded(
-                    child: state is NewsSuccess
-                        ? ListView.separated(
-                            padding: EdgeInsets.zero,
-                            itemCount: _articles.isEmpty
-                                ? state.articles.length
-                                : _articles.length,
-                            itemBuilder: (context, index) {
-                              final article = _articles.isEmpty
-                                  ? state.articles[index]
-                                  : _articles[index];
-
-                              return ArticleCard(articles: article);
-                            },
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: 10),
-                          )
-                        : const Center(child: CircularProgressIndicator()),
-                  ),
+                  const SizedBox(height: 20),
+                  Expanded(child: _buildBody(state)),
                 ],
               ),
             ),

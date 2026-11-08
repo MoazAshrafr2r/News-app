@@ -55,22 +55,23 @@ class ArticleCard extends StatelessWidget {
             ),
             Row(
               children: [
-                Container(
-                  alignment: Alignment.center,
-                  width: 250,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    title,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      title,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 100,
-                  width: 142,
+                  width: 120,
                   child: articles.urlToImage != null
                       ? Image.network(
                           articles.urlToImage!,
