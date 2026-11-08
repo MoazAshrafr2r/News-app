@@ -1,17 +1,24 @@
-# news_app
+# 📰 News App
 
-A new Flutter project.
+A Flutter news app that fetches the latest articles from a REST API, with category filtering and search. Built with Cubit (BLoC) and a clean Repository pattern.
 
-## Getting Started
+## 📱 Screenshots
+| Splash | Home | Categories | Search | Details |
+|--------|------|------------|--------|---------|
+| ![](screenshots/splash.png) | ![](screenshots/home.png) | ![](screenshots/categories.png) | ![](screenshots/search.png) | ![](screenshots/details.png) |
 
-This project is a starting point for a Flutter application.
+## Features
+- Browse the latest news articles
+- Filter by category
+- Search for specific articles
+- Article details screen
+- Loading, success, and error state handling
+- Splash screen
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠 Tech Stack
+- **Flutter & Dart**
+- **Dio** for networking
+- **flutter_bloc (Cubit)** for state management
+- **NewsAPI** (REST API)
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🏗 Architecture
