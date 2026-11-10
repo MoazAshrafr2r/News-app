@@ -72,14 +72,19 @@ class ArticleCard extends StatelessWidget {
                 SizedBox(
                   height: 100,
                   width: 120,
-                  child: articles.urlToImage != null
-                      ? Image.network(
-                          articles.urlToImage!,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) =>
-                              const Icon(Icons.broken_image),
+                  child: ClipRRect(
+                    borderRadius: BorderRadiusGeometry.circular(10),
+                    child: articles.urlToImage != null
+                        ? Hero( tag:articles.urlToImage!, 
+                          child: Image.network(
+                              articles.urlToImage!,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) =>
+                                  const Icon(Icons.broken_image),
+                            ),
                         )
-                      : const Icon(Icons.image_not_supported),
+                        : const Icon(Icons.image_not_supported),
+                  ),
                 ),
               ],
             ),

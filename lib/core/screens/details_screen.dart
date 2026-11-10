@@ -12,77 +12,89 @@ class DetailsScreen extends StatelessWidget {
     final content = article.content ?? '';
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          article.sourceName?.name ?? 'Post',
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (article.urlToImage != null)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 280,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Hero(
+                tag: article.urlToImage ?? '',
                 child: Image.network(
-                  article.urlToImage!,
-                  width: double.infinity,
-                  height: 220,
+                  article.urlToImage ?? '',
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => const SizedBox(
-                    height: 220,
-                    child: Center(child: Icon(Icons.broken_image, size: 48)),
-                  ),
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Center(
+                      child: Icon(Icons.broken_image, size: 50),
+                    );
+                  },
                 ),
-              ),
-            const SizedBox(height: 16),
-            Text(
-              article.title ?? '',
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              date.length >= 10 ? date.substring(0, 10) : date,
-              style: TextStyle(
-                color: Colors.grey.shade600,
-                fontWeight: FontWeight.w800,
               ),
             ),
-            const SizedBox(height: 16),
-            if ((article.description ?? '').isNotEmpty)
-              Text(
-                article.description!,
-                style: const TextStyle(fontSize: 16, height: 1.5),
-              ),
-            if (content.isNotEmpty) ...[
-              const SizedBox(height: 12),
-              Text(
-                content,
-                style: TextStyle(
-                  fontSize: 14,
-                  height: 1.5,
-                  color: Colors.grey.shade700,
-                ),
-              ),
-            ],
-            const SizedBox(height: 24),
-            if (article.url != null)
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  icon: const Icon(Icons.open_in_new),
-                  label: const Text('go to article '),
-                  onPressed: () => launchUrl(
-                    Uri.parse(article.url!),
-                    mode: LaunchMode.externalApplication,
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: 150,
+                    decoration: BoxDecoration(),
+                    child: Text(
+                      article.sourceName?.name ?? '',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black45,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-          ],
-        ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    article.title ?? '',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    date.length >= 10 ? date.substring(0, 10) : date,
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    content,
+                    style: TextStyle(
+                      fontSize: 17,
+                      height: 1.8,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                if (article.url != null)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        icon: const Icon(Icons.open_in_new),
+                        label: const Text('Read full Article '),
+                        onPressed: () => launchUrl(
+                          Uri.parse(article.url!),
+                          mode: LaunchMode.externalApplication,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           NewsCubit(repo: Reposotory(Api: DioConsumer(Dio())))
-            ..fetchNews(category: 'general'),
+            ..fetchNews (category: 'general'),
       child: MaterialApp(onGenerateRoute: AppRouter().GenerateRoute),
     );
   }
