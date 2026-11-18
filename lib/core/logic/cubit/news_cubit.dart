@@ -19,7 +19,7 @@ class NewsCubit extends Cubit<NewsState> {
       );
       emit(NewsSuccess(articles: articles));
     } on ServerExceptions catch (e) {
-      emit(NewsError(message: e.errorModel.message ?? "An error occurred"));
+      emit(NewsError(message: e.errorModel.message));
     }
   }
 }
